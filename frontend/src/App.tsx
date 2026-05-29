@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { useGame } from './hooks/useGame'
 import { Board } from './components/Board'
 import { Sidebar } from './components/Sidebar'
@@ -15,24 +16,19 @@ export default function App() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '32px 24px 48px',
+        padding: '48px 24px',
         gap: 24,
+        justifyContent: 'center',
       }}
     >
-      <header style={{ textAlign: 'center' }}>
-        <h1 style={{ margin: 0, fontSize: 30, letterSpacing: -0.5 }}>
-          Chess<span style={{ color: 'var(--accent)' }}>AI</span>
-        </h1>
-        <p style={{ margin: '4px 0 0', color: 'var(--text-dim)', fontSize: 14 }}>
-          Minimalista · fluido · tu propio motor
-        </p>
-      </header>
-
       <div style={{ minHeight: 48 }}>
         <StatusBanner status={game.status} />
       </div>
 
-      <div
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.05 }}
         style={{
           display: 'flex',
           gap: 28,
@@ -57,7 +53,7 @@ export default function App() {
           thinking={game.thinking}
           onNewGame={game.newGame}
         />
-      </div>
+      </motion.div>
     </div>
   )
 }

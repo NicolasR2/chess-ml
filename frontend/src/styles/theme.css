@@ -1,21 +1,44 @@
 :root {
-  --bg: #16231a;
-  --bg-2: #1d2f22;
-  --panel: #213528;
-  --panel-2: #284032;
-  --light-sq: #f4f7f2;
-  --dark-sq: #5dae5d;
-  --accent: #57f287;
-  --accent-soft: rgba(87, 242, 135, 0.28);
-  --last: rgba(87, 242, 135, 0.35);
-  --check: rgba(255, 92, 92, 0.55);
-  --text: #eafdea;
-  --text-dim: #9fc4ab;
-  --piece-white: #ffffff;
-  --piece-black: #1b2a1e;
-  --radius: 18px;
-  --radius-sm: 12px;
-  --radius-sq: 8px;
-  --shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  /* Emerald-glass palette — deep forest, jade board, mint glow */
+  --bg: #06110b;
+  --bg-2: #0a1c12;
+  --bg-3: #0e2618;
+
+  --panel: rgba(17, 38, 26, 0.55);
+  --panel-solid: #102318;
+  --panel-border: rgba(110, 240, 175, 0.14);
+  --panel-hi: rgba(110, 240, 175, 0.06);
+
+  --light-sq: #e8efe2;
+  --light-sq-2: #dde7d4;
+  --dark-sq: #2f9e6a;
+  --dark-sq-2: #258a5b;
+
+  --accent: #5cf0a0;
+  --accent-2: #19c37d;
+  --accent-deep: #0a7d4f;
+  --accent-soft: rgba(92, 240, 160, 0.22);
+  --accent-glow: rgba(92, 240, 160, 0.45);
+
+  --last: rgba(92, 240, 160, 0.42);
+  --check: rgba(255, 96, 96, 0.6);
+
+  --text: #eaf6ee;
+  --text-dim: #82ab94;
+
+  --piece-white: #fcfefb;
+  --piece-black: #0a2117;
+
+  --radius: 22px;
+  --radius-sm: 14px;
+  --radius-sq: 0px;
+
+  --shadow: 0 18px 60px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 10px 40px rgba(15, 120, 75, 0.35);
+
+  --font-display: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
+  --font-body: 'Outfit', system-ui, -apple-system, sans-serif;
+
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 }

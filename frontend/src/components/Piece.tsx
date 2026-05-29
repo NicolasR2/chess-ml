@@ -16,32 +16,38 @@ export type PieceProps = {
   code: string
   /** slide-in offset in board squares (from - to), animated to 0 */
   slide?: { dx: number; dy: number }
+  selected?: boolean
   animKey: string
 }
 
-export function Piece({ code, slide, animKey }: PieceProps) {
+export function Piece({ code, slide, selected, animKey }: PieceProps) {
   const isWhite = code === code.toUpperCase()
   const glyph = GLYPH[code.toLowerCase()]
   return (
     <motion.div
       key={animKey}
       initial={slide ? { x: `${slide.dx * 100}%`, y: `${slide.dy * 100}%` } : false}
-      animate={{ x: 0, y: 0 }}
-      transition={{ type: 'spring', stiffness: 520, damping: 38, mass: 0.7 }}
+      animate={{ x: 0, y: 0, scale: selected ? 1.14 : 1 }}
+      transition={{
+        x: { type: 'spring', stiffness: 540, damping: 36, mass: 0.7 },
+        y: { type: 'spring', stiffness: 540, damping: 36, mass: 0.7 },
+        scale: { type: 'spring', stiffness: 600, damping: 22 },
+      }}
       style={{
         position: 'absolute',
         inset: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '76%',
+        fontSize: '90%',
         lineHeight: 1,
         userSelect: 'none',
         pointerEvents: 'none',
+        zIndex: selected ? 3 : 2,
         color: isWhite ? 'var(--piece-white)' : 'var(--piece-black)',
-        textShadow: isWhite
-          ? '0 1px 2px rgba(0,0,0,0.35)'
-          : '0 1px 1px rgba(255,255,255,0.12)',
+        filter: isWhite
+          ? 'drop-shadow(0 3px 4px rgba(0,0,0,0.4))'
+          : 'drop-shadow(0 3px 4px rgba(0,0,0,0.32))',
       }}
     >
       {glyph}

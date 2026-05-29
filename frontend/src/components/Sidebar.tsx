@@ -70,13 +70,7 @@ export function Sidebar({ history, turn, thinking, onNewGame }: SidebarProps) {
           </Field>
         )}
 
-        <button
-          className="primary"
-          style={{ width: '100%', marginTop: 6 }}
-          onClick={() => onNewGame({ mode, color, sims })}
-        >
-          Empezar
-        </button>
+        <StartButton onClick={() => onNewGame({ mode, color, sims })} />
       </div>
 
       <div style={{ ...panel, flex: 1, minHeight: 160 }}>
@@ -116,6 +110,73 @@ export function Sidebar({ history, turn, thinking, onNewGame }: SidebarProps) {
         </div>
       </div>
     </div>
+  )
+}
+
+function StartButton({ onClick }: { onClick: () => void }) {
+  return (
+    <motion.button
+      onClick={onClick}
+      initial={false}
+      whileHover="hover"
+      whileTap={{ scale: 0.96 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 26 }}
+      style={{
+        position: 'relative',
+        width: '100%',
+        marginTop: 8,
+        padding: '14px 18px',
+        border: 'none',
+        borderRadius: 'var(--radius-sm)',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        background: 'linear-gradient(120deg, var(--accent-2), var(--accent))',
+        color: '#04120b',
+        fontFamily: 'var(--font-display)',
+        fontWeight: 800,
+        fontSize: 16,
+        letterSpacing: 0.2,
+        boxShadow: '0 10px 30px rgba(15, 120, 75, 0.45)',
+      }}
+    >
+      {/* sweeping sheen on hover */}
+      <motion.span
+        variants={{
+          hover: { x: ['-120%', '120%'], opacity: [0, 1, 0] },
+        }}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          width: '40%',
+          background:
+            'linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent)',
+          transform: 'skewX(-18deg)',
+          pointerEvents: 'none',
+        }}
+      />
+      <motion.span
+        variants={{ hover: { gap: 12 } }}
+        style={{
+          position: 'relative',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          zIndex: 1,
+        }}
+      >
+        Empezar
+        <motion.span
+          variants={{ hover: { x: 4 } }}
+          transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+          style={{ fontSize: 18, lineHeight: 1 }}
+        >
+          ♞
+        </motion.span>
+      </motion.span>
+    </motion.button>
   )
 }
 
@@ -162,14 +223,19 @@ function Segment({
       }}
     >
       {options.map(([val, label]) => (
-        <button
+        <motion.button
           key={val}
           onClick={() => onChange(val)}
+          whileTap={{ scale: 0.93 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 26 }}
           style={{
             flex: 1,
             position: 'relative',
+            border: 'none',
+            cursor: 'pointer',
             background: 'transparent',
             padding: '8px 4px',
+            fontWeight: 600,
             color: value === val ? '#0c1a10' : 'var(--text-dim)',
           }}
         >
@@ -187,7 +253,7 @@ function Segment({
             />
           )}
           <span style={{ position: 'relative', zIndex: 1 }}>{label}</span>
-        </button>
+        </motion.button>
       ))}
     </div>
   )

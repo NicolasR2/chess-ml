@@ -65,36 +65,36 @@ export function Square({
       )}
 
       {isLegal && !isCapture && (
-        <motion.span
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 600, damping: 28 }}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: '26%',
-            height: '26%',
-            transform: 'translate(-50%, -50%)',
-            borderRadius: '50%',
-            background: 'var(--accent)',
-            opacity: 0.85,
-          }}
-        />
+        <div style={dotCenter}>
+          <motion.span
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.85 }}
+            transition={{ type: 'spring', stiffness: 600, damping: 28 }}
+            style={{
+              width: '28%',
+              height: '28%',
+              borderRadius: '50%',
+              background: 'var(--accent)',
+              boxShadow: '0 0 10px var(--accent-glow)',
+            }}
+          />
+        </div>
       )}
 
       {isLegal && isCapture && (
-        <motion.span
-          initial={{ scale: 0.6, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-          style={{
-            position: 'absolute',
-            inset: '8%',
-            borderRadius: '50%',
-            boxShadow: 'inset 0 0 0 5px var(--accent)',
-          }}
-        />
+        <div style={dotCenter}>
+          <motion.span
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            style={{
+              width: '84%',
+              height: '84%',
+              borderRadius: '50%',
+              boxShadow: 'inset 0 0 0 5px var(--accent)',
+            }}
+          />
+        </div>
       )}
 
       {fileLabel && (
@@ -107,6 +107,15 @@ export function Square({
       {children}
     </div>
   )
+}
+
+const dotCenter: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
 }
 
 function labelStyle(

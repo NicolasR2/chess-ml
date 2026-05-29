@@ -97,6 +97,13 @@ def train_streaming(net, shard_paths, device, epochs=1, batch_size=512, lr=1e-3,
     return first_loss, last_loss
 
 
+def init_from_checkpoint(net, path):
+    """Load weights from a saved checkpoint into net (warm start)."""
+    ckpt = torch.load(path, map_location="cpu", weights_only=True)
+    net.load_state_dict(ckpt["state_dict"])
+    return net
+
+
 def _load_shards(shard_glob):
     xs, ids, vs = [], [], []
     for path in sorted(glob.glob(shard_glob)):
@@ -116,13 +123,21 @@ def main():
     ap.add_argument("--channels", type=int, default=64)
     ap.add_argument("--blocks", type=int, default=6)
     ap.add_argument("--chunk-shards", type=int, default=8)
+    ap.add_argument("--init-checkpoint", default=None,
+                    help="warm-start from this checkpoint")
     ap.add_argument("--out", default="checkpoints/model.pt")
     args = ap.parse_args()
     device = torch_directml.device()
     print(f"device={device}")
-    shard_paths = sorted(glob.glob(args.shards))
+    shard_paths = []
+    for pat in args.shards.split(","):
+        shard_paths.extend(glob.glob(pat.strip()))
+    shard_paths = sorted(shard_paths)
     print(f"shards={len(shard_paths)} (chunk_shards={args.chunk_shards})", flush=True)
     net = ChessNet(channels=args.channels, blocks=args.blocks)
+    if args.init_checkpoint:
+        init_from_checkpoint(net, args.init_checkpoint)
+        print(f"warm-started from {args.init_checkpoint}", flush=True)
     train_streaming(net, shard_paths, device, epochs=args.epochs,
                     batch_size=args.batch_size, chunk_shards=args.chunk_shards)
     net.to("cpu")  # DirectML tensors don't survive weights_only=True load

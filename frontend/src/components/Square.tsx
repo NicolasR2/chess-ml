@@ -38,6 +38,7 @@ export function Square({
         background: dark ? 'var(--dark-sq)' : 'var(--light-sq)',
         cursor: 'pointer',
         overflow: 'hidden',
+        containerType: 'inline-size',
       }}
     >
       {(isSelected || isLast) && (

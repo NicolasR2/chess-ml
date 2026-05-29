@@ -39,7 +39,7 @@ export function Piece({ code, slide, selected, animKey }: PieceProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '90%',
+        fontSize: '78cqw',
         lineHeight: 1,
         userSelect: 'none',
         pointerEvents: 'none',

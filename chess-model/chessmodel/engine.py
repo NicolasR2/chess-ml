@@ -17,7 +17,7 @@ class NetEvaluator:
         with torch.no_grad():
             logits, value = self.model(x)
         logits = logits[0].cpu().numpy()
-        value = float(value[0].cpu().numpy())
+        value = float(value.reshape(-1)[0].item())
         legal = list(board.legal_moves)
         if not legal:
             return {}, value

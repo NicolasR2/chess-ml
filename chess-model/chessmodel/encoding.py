@@ -31,3 +31,36 @@ def encode_board(board: chess.Board) -> np.ndarray:
     if board.ep_square is not None:
         planes[17, chess.square_rank(board.ep_square), chess.square_file(board.ep_square)] = 1.0
     return planes
+
+
+def _generate_all_moves():
+    moves, seen = [], set()
+    for from_sq in chess.SQUARES:
+        for to_sq in chess.SQUARES:
+            if from_sq == to_sq:
+                continue
+            base = chess.Move(from_sq, to_sq)
+            if base.uci() not in seen:
+                seen.add(base.uci())
+                moves.append(base)
+            fr, tr = chess.square_rank(from_sq), chess.square_rank(to_sq)
+            if (fr == 6 and tr == 7) or (fr == 1 and tr == 0):
+                for promo in (chess.QUEEN, chess.ROOK, chess.BISHOP, chess.KNIGHT):
+                    m = chess.Move(from_sq, to_sq, promotion=promo)
+                    if m.uci() not in seen:
+                        seen.add(m.uci())
+                        moves.append(m)
+    return moves
+
+
+ALL_MOVES = _generate_all_moves()
+MOVE_TO_IDX = {m.uci(): i for i, m in enumerate(ALL_MOVES)}
+POLICY_SIZE = len(ALL_MOVES)
+
+
+def move_to_index(move: chess.Move) -> int:
+    return MOVE_TO_IDX[move.uci()]
+
+
+def index_to_move(idx: int) -> chess.Move:
+    return ALL_MOVES[idx]

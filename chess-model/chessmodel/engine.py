@@ -36,7 +36,7 @@ class Engine:
 
     @classmethod
     def from_checkpoint(cls, path, device, c_puct=1.5):
-        ckpt = torch.load(path, map_location=device, weights_only=True)
+        ckpt = torch.load(path, map_location="cpu", weights_only=True)
         net = ChessNet(channels=ckpt["channels"], blocks=ckpt["blocks"])
         net.load_state_dict(ckpt["state_dict"])
         return cls(net, device, c_puct)

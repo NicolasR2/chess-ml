@@ -68,6 +68,7 @@ def main():
     net = ChessNet(channels=args.channels, blocks=args.blocks)
     train_on_arrays(net, x, idx, v, device, epochs=args.epochs,
                     batch_size=args.batch_size)
+    net.to("cpu")  # DirectML tensors don't survive weights_only=True load
     torch.save({"channels": args.channels, "blocks": args.blocks,
                 "state_dict": net.state_dict()}, args.out)
     print(f"saved {args.out}")

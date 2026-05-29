@@ -1,0 +1,21 @@
+:root {
+  --bg: #16231a;
+  --bg-2: #1d2f22;
+  --panel: #213528;
+  --panel-2: #284032;
+  --light-sq: #f4f7f2;
+  --dark-sq: #5dae5d;
+  --accent: #57f287;
+  --accent-soft: rgba(87, 242, 135, 0.28);
+  --last: rgba(87, 242, 135, 0.35);
+  --check: rgba(255, 92, 92, 0.55);
+  --text: #eafdea;
+  --text-dim: #9fc4ab;
+  --piece-white: #ffffff;
+  --piece-black: #1b2a1e;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --radius-sq: 8px;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

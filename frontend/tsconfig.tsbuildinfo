@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/setuptests.ts","./src/vite-env.d.ts","./src/components/board.tsx","./src/components/piece.tsx","./src/components/sidebar.tsx","./src/components/square.tsx","./src/components/statusbanner.tsx","./src/hooks/usegame.test.ts","./src/hooks/usegame.ts","./src/lib/api.test.ts","./src/lib/api.ts"],"version":"5.9.3"}

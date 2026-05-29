@@ -41,9 +41,13 @@ class Engine:
         net.load_state_dict(ckpt["state_dict"])
         return cls(net, device, c_puct)
 
-    def best_move(self, fen, sims=200):
+    def best_move(self, fen, sims=200, profile=None, seed=None):
+        import random
+        from chessmodel.difficulty import DifficultyProfile, select_move
+        if profile is None:
+            profile = DifficultyProfile(sims=sims)
         board = chess.Board(fen)
-        visits = self.mcts.search(board, sims)
-        best = max(visits, key=visits.get)
-        _, value = self.evaluator(board)
-        return {"move": best.uci(), "eval": value, "pv": [best.uci()]}
+        visits = self.mcts.search(board, profile.sims)
+        priors, value = self.evaluator(board)
+        move = select_move(visits, priors, profile, random.Random(seed))
+        return {"move": move.uci(), "eval": value, "pv": [move.uci()]}

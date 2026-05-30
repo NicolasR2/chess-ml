@@ -1,0 +1,9 @@
+# brainstorming visual companion
+.superpowers/
+
+# temporary git worktrees
+.verify-chessmodel/
+
+# OS / editor
+.DS_Store
+Thumbs.db

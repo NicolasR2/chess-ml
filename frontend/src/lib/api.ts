@@ -19,7 +19,7 @@ export type GameState = {
 export type CreateOpts = {
   mode: 'ai' | 'local'
   color: 'white' | 'black' | 'random'
-  sims?: number
+  level?: number
 }
 
 async function asJson<T>(res: Response): Promise<T> {
@@ -45,4 +45,10 @@ export function postMove(id: string, move: Move): Promise<GameState> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(move),
   }).then(asJson<GameState>)
+}
+
+export function getLevels(): Promise<number[]> {
+  return fetch(`${BASE}/api/levels`)
+    .then(asJson<{ levels: number[] }>)
+    .then((r) => r.levels)
 }

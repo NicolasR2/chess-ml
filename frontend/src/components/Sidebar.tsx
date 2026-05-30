@@ -19,7 +19,7 @@ const panel: React.CSSProperties = {
 export function Sidebar({ history, turn, thinking, onNewGame }: SidebarProps) {
   const [mode, setMode] = useState<'ai' | 'local'>('ai')
   const [color, setColor] = useState<'white' | 'black' | 'random'>('white')
-  const [sims, setSims] = useState(200)
+  const [level, setLevel] = useState(1500)
 
   const pairs: [string, string?][] = []
   for (let i = 0; i < history.length; i += 2) {
@@ -57,20 +57,20 @@ export function Sidebar({ history, turn, thinking, onNewGame }: SidebarProps) {
         </Field>
 
         {mode === 'ai' && (
-          <Field label={`Fuerza · ${sims} sims`}>
+          <Field label={`Nivel · ${level} ELO`}>
             <input
               type="range"
-              min={50}
-              max={800}
-              step={50}
-              value={sims}
-              onChange={(e) => setSims(Number(e.target.value))}
+              min={500}
+              max={2200}
+              step={100}
+              value={level}
+              onChange={(e) => setLevel(Number(e.target.value))}
               style={{ width: '100%', accentColor: 'var(--accent)' }}
             />
           </Field>
         )}
 
-        <StartButton onClick={() => onNewGame({ mode, color, sims })} />
+        <StartButton onClick={() => onNewGame({ mode, color, level })} />
       </div>
 
       <div style={{ ...panel, flex: 1, minHeight: 160 }}>

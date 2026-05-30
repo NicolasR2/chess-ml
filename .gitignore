@@ -1,0 +1,12 @@
+# brainstorming visual companion
+.superpowers/
+
+# temporary git worktrees
+.verify-chessmodel/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# build caches
+frontend/tsconfig.tsbuildinfo

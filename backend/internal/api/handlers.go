@@ -20,7 +20,7 @@ type Handlers struct {
 type createReq struct {
 	Mode  string `json:"mode"`
 	Color string `json:"color"`
-	Sims  int    `json:"sims"`
+	Level int    `json:"level"`
 }
 
 type moveDTO struct {
@@ -63,7 +63,7 @@ func (h *Handlers) createGame(w http.ResponseWriter, r *http.Request) {
 	}
 	g := h.store.New(color)
 	g.Mode = req.Mode
-	g.Sims = req.Sims
+	g.Level = req.Level
 	resp := gameState{ID: g.ID(), FEN: g.FEN(), Turn: g.Turn(), Status: g.Status(), PlayerColor: color}
 	// If AI mode and it is the AI's turn first (player is black), let the AI open.
 	if g.Mode == "ai" && g.Turn() != color {
@@ -113,7 +113,7 @@ func (h *Handlers) postMove(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) applyAIMove(g *game.Game, resp *gameState) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
-	uci, err := h.engine.BestMove(ctx, g.FEN(), g.Sims)
+	uci, err := h.engine.BestMove(ctx, g.FEN(), g.Level)
 	if err != nil {
 		return
 	}
@@ -128,4 +128,11 @@ func (h *Handlers) applyAIMove(g *game.Game, resp *gameState) {
 	resp.FEN = g.FEN()
 	resp.Turn = g.Turn()
 	resp.Status = g.Status()
+}
+
+// LevelLadder is the set of selectable opponent ELOs (mirrors level_config.json).
+var LevelLadder = []int{500, 1000, 1200, 1500, 1800, 2000, 2200}
+
+func (h *Handlers) levels(w http.ResponseWriter, _ *http.Request) {
+	writeJSON(w, http.StatusOK, map[string]any{"levels": LevelLadder})
 }

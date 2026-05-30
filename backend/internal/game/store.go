@@ -14,7 +14,7 @@ type Game struct {
 	g           *chess.Game
 	PlayerColor string // "white" | "black"
 	Mode        string // "ai" | "local"
-	Sims        int
+	Level       int    // target ELO for the AI opponent
 	mu          sync.Mutex
 }
 

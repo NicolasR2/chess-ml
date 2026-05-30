@@ -22,6 +22,7 @@ func NewRouter(store *game.Store, eng engine.Engine) http.Handler {
 	r.Get("/api/health", func(w http.ResponseWriter, _ *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
+	r.Get("/api/levels", h.levels)
 	r.Post("/api/games", h.createGame)
 	r.Get("/api/games/{id}", h.getGame)
 	r.Post("/api/games/{id}/moves", h.postMove)

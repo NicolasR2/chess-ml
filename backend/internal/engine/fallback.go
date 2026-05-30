@@ -78,7 +78,7 @@ func negamax(pos *chess.Position, depth int, alpha, beta float64) float64 {
 	return best
 }
 
-func (f *Fallback) BestMove(ctx context.Context, fen string, sims int) (string, error) {
+func (f *Fallback) BestMove(ctx context.Context, fen string, level int) (string, error) {
 	fenFunc, err := chess.FEN(fen)
 	if err != nil {
 		return "", err

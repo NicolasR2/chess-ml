@@ -18,7 +18,7 @@ func TestModelEngineParsesMove(t *testing.T) {
 	defer srv.Close()
 
 	e := NewModel(srv.URL, srv.Client())
-	uci, err := e.BestMove(context.Background(), "startpos", 200)
+	uci, err := e.BestMove(context.Background(), "startpos", 1500)
 	if err != nil {
 		t.Fatalf("err: %v", err)
 	}
@@ -34,7 +34,7 @@ func TestModelEngineErrorsOnEmptyMove(t *testing.T) {
 	defer srv.Close()
 
 	e := NewModel(srv.URL, srv.Client())
-	if _, err := e.BestMove(context.Background(), "fen", 1); err == nil {
+	if _, err := e.BestMove(context.Background(), "fen", 1500); err == nil {
 		t.Fatal("expected error on empty move")
 	}
 }

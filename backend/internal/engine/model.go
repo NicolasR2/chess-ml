@@ -8,8 +8,8 @@ import (
 	"net/http"
 )
 
-// Model is an Engine that delegates to the Python model service
-// (POST {baseURL}/bestmove {fen, sims} -> {move, eval, pv}).
+// Model delegates to the Python model service
+// (POST {baseURL}/bestmove {fen, level} -> {move, eval, pv}).
 type Model struct {
 	baseURL string
 	client  *http.Client
@@ -22,8 +22,8 @@ func NewModel(baseURL string, client *http.Client) *Model {
 	return &Model{baseURL: baseURL, client: client}
 }
 
-func (m *Model) BestMove(ctx context.Context, fen string, sims int) (string, error) {
-	body, _ := json.Marshal(map[string]any{"fen": fen, "sims": sims})
+func (m *Model) BestMove(ctx context.Context, fen string, level int) (string, error) {
+	body, _ := json.Marshal(map[string]any{"fen": fen, "level": level})
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, m.baseURL+"/bestmove", bytes.NewReader(body))
 	if err != nil {
 		return "", err

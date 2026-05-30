@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import type { Color, Move } from '../lib/api'
 import { Square } from './Square'
-import { Piece } from './Piece'
+import { PieceSvg } from './PieceSvg'
+import { useSettings } from '../context/SettingsContext'
 
 type BoardProps = {
   fen: string
@@ -100,53 +101,85 @@ export function Board({
     setSelected(null)
   }
 
+  const { settings } = useSettings()
+  const rankLabels = orientation === 'white' ? [8, 7, 6, 5, 4, 3, 2, 1] : [1, 2, 3, 4, 5, 6, 7, 8]
+  const fileLabels = orientation === 'white'
+    ? ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    : ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a']
+
   return (
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(8, 1fr)',
-        width: 'min(78vmin, 640px)',
-        aspectRatio: '1 / 1',
-        borderRadius: 'var(--radius)',
-        overflow: 'hidden',
-        boxShadow: 'var(--shadow)',
+        gridTemplateColumns: '18px min(78vmin, 640px)',
+        gridTemplateRows: 'min(78vmin, 640px) 18px',
+        gap: 4,
       }}
     >
-      {cells.map((cell, i) => {
-        const isLast =
-          !!lastMove && (lastMove.from === cell.square || lastMove.to === cell.square)
-        const isLegal = legal.includes(cell.square)
-        const isCapture = isLegal && !!cell.piece
-        const showFile = i >= 56
-        const showRank = i % 8 === 0
-
-        let slide: { dx: number; dy: number } | undefined
-        let animKey = `${cell.square}-${cell.piece}`
-        if (cell.piece && lastMove && lastMove.to === cell.square) {
-          const from = toDisplay(lastMove.from, orientation)
-          const to = toDisplay(lastMove.to, orientation)
-          slide = { dx: from.col - to.col, dy: from.row - to.row }
-          animKey = `${lastMove.from}-${lastMove.to}-${cell.piece}`
-        }
-
-        return (
-          <Square
-            key={cell.square}
-            square={cell.square}
-            dark={cell.dark}
-            isSelected={selected === cell.square}
-            isLast={isLast}
-            isLegal={isLegal}
-            isCapture={isCapture}
-            isCheck={kingSquare === cell.square}
-            fileLabel={showFile ? cell.square[0] : undefined}
-            rankLabel={showRank ? cell.square[1] : undefined}
-            onClick={() => handleClick(cell.square)}
-          >
-            {cell.piece && <Piece code={cell.piece} slide={slide} animKey={animKey} />}
-          </Square>
-        )
-      })}
+      {settings.showCoordinates && (
+        <div style={{ gridColumn: 1, gridRow: 1, display: 'grid', gridTemplateRows: 'repeat(8, 1fr)' }}>
+          {rankLabels.map((r) => (
+            <span key={r} style={coordStyle}>{r}</span>
+          ))}
+        </div>
+      )}
+      <div
+        style={{
+          gridColumn: 2,
+          gridRow: 1,
+          display: 'grid',
+          gridTemplateColumns: 'repeat(8, 1fr)',
+          aspectRatio: '1 / 1',
+          borderRadius: 'var(--radius)',
+          overflow: 'hidden',
+          boxShadow: 'var(--shadow)',
+        }}
+      >
+        {cells.map((cell) => {
+          const isLast = !!lastMove && (lastMove.from === cell.square || lastMove.to === cell.square)
+          const isLegal = legal.includes(cell.square)
+          const isCapture = isLegal && !!cell.piece
+          let slide: { dx: number; dy: number } | undefined
+          let animKey = `${cell.square}-${cell.piece}`
+          if (cell.piece && lastMove && lastMove.to === cell.square) {
+            const from = toDisplay(lastMove.from, orientation)
+            const to = toDisplay(lastMove.to, orientation)
+            slide = { dx: from.col - to.col, dy: from.row - to.row }
+            animKey = `${lastMove.from}-${lastMove.to}-${cell.piece}`
+          }
+          return (
+            <Square
+              key={cell.square}
+              square={cell.square}
+              dark={cell.dark}
+              isSelected={selected === cell.square}
+              isLast={isLast}
+              isLegal={isLegal}
+              isCapture={isCapture}
+              isCheck={kingSquare === cell.square}
+              onClick={() => handleClick(cell.square)}
+            >
+              {cell.piece && <PieceSvg code={cell.piece} slide={slide} animKey={animKey} />}
+            </Square>
+          )
+        })}
+      </div>
+      {settings.showCoordinates && (
+        <div style={{ gridColumn: 2, gridRow: 2, display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)' }}>
+          {fileLabels.map((f) => (
+            <span key={f} style={coordStyle}>{f}</span>
+          ))}
+        </div>
+      )}
     </div>
   )
+}
+
+const coordStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: 11,
+  fontWeight: 700,
+  color: 'var(--text-dim)',
 }

@@ -9,8 +9,6 @@ export type SquareProps = {
   isLegal: boolean
   isCapture: boolean
   isCheck: boolean
-  fileLabel?: string
-  rankLabel?: string
   onClick: () => void
   children?: ReactNode
 }
@@ -23,8 +21,6 @@ export function Square({
   isLegal,
   isCapture,
   isCheck,
-  fileLabel,
-  rankLabel,
   onClick,
   children,
 }: SquareProps) {
@@ -98,13 +94,6 @@ export function Square({
         </div>
       )}
 
-      {fileLabel && (
-        <span style={labelStyle(dark, { right: 4, bottom: 2 })}>{fileLabel}</span>
-      )}
-      {rankLabel && (
-        <span style={labelStyle(dark, { left: 4, top: 2 })}>{rankLabel}</span>
-      )}
-
       {children}
     </div>
   )
@@ -117,19 +106,4 @@ const dotCenter: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   pointerEvents: 'none',
-}
-
-function labelStyle(
-  dark: boolean,
-  pos: { left?: number; right?: number; top?: number; bottom?: number },
-): React.CSSProperties {
-  return {
-    position: 'absolute',
-    ...pos,
-    fontSize: '11px',
-    fontWeight: 700,
-    pointerEvents: 'none',
-    color: dark ? 'var(--light-sq)' : 'var(--dark-sq)',
-    opacity: 0.7,
-  }
 }

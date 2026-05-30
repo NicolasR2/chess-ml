@@ -1,11 +1,12 @@
 // frontend/src/components/PageShell.tsx
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { useSettings } from '../context/SettingsContext'
 
 export function PageShell({ children }: { children: ReactNode }) {
   const { settings } = useSettings()
-  const anim = settings.animations
+  const reduce = useReducedMotion()
+  const anim = settings.animations && !reduce
   return (
     <motion.main
       initial={anim ? { opacity: 0, y: 16 } : false}

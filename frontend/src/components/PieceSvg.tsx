@@ -1,5 +1,5 @@
 // frontend/src/components/PieceSvg.tsx
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useSettings } from '../context/SettingsContext'
 import { PIECE_SETS, PIECE_ELEMENTS, type PieceType } from '../pieces'
 
@@ -16,7 +16,8 @@ export function PieceSvg({ code, slide, selected, animKey }: PieceSvgProps) {
   const isWhite = code === code.toUpperCase()
   const t = code.toLowerCase() as PieceType
   const style = isWhite ? set.white : set.black
-  const anim = settings.animations
+  const reduce = useReducedMotion()
+  const anim = settings.animations && !reduce
   return (
     <motion.svg
       key={animKey}

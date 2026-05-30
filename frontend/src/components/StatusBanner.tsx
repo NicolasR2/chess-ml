@@ -27,7 +27,7 @@ export function StatusBanner({ status }: { status: Status }) {
             fontWeight: 700,
             fontSize: isEnd ? 20 : 15,
             color: isEnd ? '#0c1a10' : 'var(--text)',
-            background: isEnd ? 'var(--accent)' : 'var(--panel-2)',
+            background: isEnd ? 'var(--accent)' : 'var(--panel-solid)',
             boxShadow: 'var(--shadow)',
             textAlign: 'center',
           }}

@@ -159,7 +159,7 @@ export function Board({
               isCheck={kingSquare === cell.square}
               onClick={() => handleClick(cell.square)}
             >
-              {cell.piece && <PieceSvg code={cell.piece} slide={slide} animKey={animKey} />}
+              {cell.piece && <PieceSvg code={cell.piece} slide={slide} selected={selected === cell.square} animKey={animKey} />}
             </Square>
           )
         })}

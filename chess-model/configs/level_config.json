@@ -1,5 +1,5 @@
 {
-  "model": "checkpoints/model.pt",
+  "model": "checkpoints/flagship_r3.pt",
   "levels": {
     "500":  {"sims": 16,  "temperature": 1.2, "blunder_rate": 0.45, "top_k": 0},
     "1000": {"sims": 40,  "temperature": 1.0, "blunder_rate": 0.25, "top_k": 0},

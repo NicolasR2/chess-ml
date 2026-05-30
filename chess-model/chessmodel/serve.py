@@ -41,7 +41,7 @@ def main():
     from chessmodel.engine import Engine
     from chessmodel.levelconfig import load_level_config
     ap = argparse.ArgumentParser()
-    ap.add_argument("--checkpoint", default="checkpoints/model.pt")
+    ap.add_argument("--checkpoint", default="checkpoints/flagship_r3.pt")
     ap.add_argument("--config", default="configs/level_config.json")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8000)

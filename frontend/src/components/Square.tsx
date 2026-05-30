@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { ReactNode } from 'react'
 
 export type SquareProps = {
@@ -94,7 +94,7 @@ export function Square({
         </div>
       )}
 
-      {children}
+      <AnimatePresence>{children}</AnimatePresence>
     </div>
   )
 }

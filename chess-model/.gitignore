@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+data/*.pgn
+data/*.zst
+data/*.npz
+data/*.pgn.zst
+checkpoints/*.pt
+.venv/

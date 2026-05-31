@@ -1,0 +1,12 @@
+{
+  "model": "checkpoints/flagship_r3.pt",
+  "levels": {
+    "500":  {"sims": 16,  "temperature": 1.2, "blunder_rate": 0.45, "top_k": 0},
+    "1000": {"sims": 40,  "temperature": 1.0, "blunder_rate": 0.25, "top_k": 0},
+    "1200": {"sims": 80,  "temperature": 0.8, "blunder_rate": 0.15, "top_k": 8},
+    "1500": {"sims": 160, "temperature": 0.6, "blunder_rate": 0.07, "top_k": 6},
+    "1800": {"sims": 320, "temperature": 0.4, "blunder_rate": 0.03, "top_k": 4},
+    "2000": {"sims": 600, "temperature": 0.2, "blunder_rate": 0.01, "top_k": 3},
+    "2200": {"sims": 800, "temperature": 0.0, "blunder_rate": 0.0,  "top_k": 0}
+  }
+}

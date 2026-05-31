@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence, useAnimationControls } from 'framer-motion'
 import { useSettings } from '../context/SettingsContext'
 
-// Large, ultra-soft emerald orbs that roam across the screen, breathe in BOTH
-// directions (some grow, some shrink) and react to user clicks. Controlled by
-// the in-app "Animaciones" toggle.
+// Soft emerald orbs that roam far across the screen, breathe in BOTH directions
+// (some grow, some shrink) and react to every user click (menu, board moves, etc.).
+// Controlled by the in-app "Animaciones" toggle.
 type Orb = {
   size: number
   color: string
@@ -20,17 +20,17 @@ type Orb = {
 }
 
 const ORBS: Orb[] = [
-  { size: 560, color: 'rgba(25,195,125,0.38)', top: '-10%', left: '-8%', dx: 240, dy: 170, smin: 0.35, smax: 1.95, grow: true, dur: 5, delay: 0 },
-  { size: 460, color: 'rgba(92,240,160,0.30)', top: '42%', left: '70%', dx: -260, dy: -140, smin: 0.3, smax: 1.9, grow: false, dur: 4.5, delay: 0.6 },
-  { size: 640, color: 'rgba(10,125,79,0.36)', top: '58%', left: '-4%', dx: 220, dy: -200, smin: 0.4, smax: 1.8, grow: true, dur: 6, delay: 0.3 },
-  { size: 380, color: 'rgba(92,240,160,0.28)', top: '2%', left: '60%', dx: -210, dy: 220, smin: 0.25, smax: 2.0, grow: false, dur: 4, delay: 1 },
-  { size: 520, color: 'rgba(25,195,125,0.28)', top: '26%', left: '32%', dx: 180, dy: 180, smin: 0.4, smax: 1.85, grow: true, dur: 5.5, delay: 0.8 },
-  { size: 440, color: 'rgba(60,220,150,0.26)', top: '70%', left: '55%', dx: -190, dy: -200, smin: 0.35, smax: 1.9, grow: false, dur: 4.8, delay: 0.4 },
+  { size: 440, color: 'rgba(25,195,125,0.40)', top: '-6%', left: '-6%', dx: 620, dy: 360, smin: 0.35, smax: 1.95, grow: true, dur: 6, delay: 0 },
+  { size: 360, color: 'rgba(92,240,160,0.32)', top: '40%', left: '68%', dx: -680, dy: -320, smin: 0.3, smax: 1.9, grow: false, dur: 7, delay: 0.5 },
+  { size: 520, color: 'rgba(10,125,79,0.38)', top: '56%', left: '-4%', dx: 560, dy: -420, smin: 0.4, smax: 1.85, grow: true, dur: 8, delay: 0.3 },
+  { size: 300, color: 'rgba(92,240,160,0.30)', top: '4%', left: '58%', dx: -560, dy: 460, smin: 0.25, smax: 2.0, grow: false, dur: 5.5, delay: 1 },
+  { size: 420, color: 'rgba(25,195,125,0.30)', top: '24%', left: '30%', dx: 480, dy: 420, smin: 0.4, smax: 1.85, grow: true, dur: 7.5, delay: 0.8 },
+  { size: 360, color: 'rgba(60,220,150,0.28)', top: '68%', left: '52%', dx: -520, dy: -460, smin: 0.35, smax: 1.95, grow: false, dur: 6.5, delay: 0.4 },
 ]
 
-// roam through several points instead of a simple there-and-back
+// roam through several spread-out points (not a simple there-and-back)
 function roam(d: number) {
-  return [0, d, -d * 0.7, d * 0.45, 0]
+  return [0, d, -d * 0.8, d * 0.5, 0]
 }
 
 export function Background() {
@@ -46,8 +46,8 @@ export function Background() {
       const id = nextId.current++
       setRipples((rs) => [...rs, { id, x: e.clientX, y: e.clientY }])
       window.setTimeout(() => setRipples((rs) => rs.filter((r) => r.id !== id)), 900)
-      // whole orb field reacts with a quick pop
-      field.start({ scale: [1, 1.18, 1], transition: { duration: 0.6, ease: 'easeOut' } })
+      // whole orb field reacts with a quick pop on every click
+      field.start({ scale: [1, 1.22, 1], transition: { duration: 0.55, ease: 'easeOut' } })
     }
     window.addEventListener('pointerdown', onDown)
     return () => window.removeEventListener('pointerdown', onDown)
@@ -55,7 +55,7 @@ export function Background() {
 
   return (
     <div aria-hidden style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-      <motion.div animate={field} style={{ position: 'absolute', inset: 0 }}>
+      <motion.div animate={field} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
         {ORBS.map((o, i) => {
           const scale = o.grow
             ? [o.smin, o.smax, o.smin, o.smax, o.smin]
@@ -66,7 +66,7 @@ export function Background() {
               initial={{ scale: o.grow ? o.smin : o.smax, opacity: 0.6 }}
               animate={
                 anim
-                  ? { x: roam(o.dx), y: roam(o.dy), scale, opacity: [0.35, 1, 0.5, 0.95, 0.35] }
+                  ? { x: roam(o.dx), y: roam(o.dy), scale, opacity: [0.4, 1, 0.55, 0.95, 0.4] }
                   : { scale: 1, opacity: 0.85 }
               }
               transition={{ duration: o.dur, repeat: anim ? Infinity : 0, ease: [0.45, 0, 0.55, 1], delay: o.delay }}
@@ -77,8 +77,8 @@ export function Background() {
                 width: o.size,
                 height: o.size,
                 borderRadius: '50%',
-                background: `radial-gradient(circle at 50% 50%, ${o.color} 0%, ${o.color} 18%, transparent 72%)`,
-                filter: 'blur(90px)',
+                background: `radial-gradient(circle at 50% 50%, ${o.color} 0%, ${o.color} 16%, transparent 72%)`,
+                filter: 'blur(80px)',
                 willChange: 'transform, opacity',
               }}
             />
@@ -98,14 +98,15 @@ export function Background() {
               position: 'absolute',
               left: r.x,
               top: r.y,
-              width: 360,
-              height: 360,
-              marginLeft: -180,
-              marginTop: -180,
+              width: 380,
+              height: 380,
+              marginLeft: -190,
+              marginTop: -190,
               borderRadius: '50%',
               border: '2px solid var(--accent)',
-              boxShadow: '0 0 40px var(--accent-glow)',
+              boxShadow: '0 0 50px var(--accent-glow)',
               filter: 'blur(2px)',
+              pointerEvents: 'none',
             }}
           />
         ))}

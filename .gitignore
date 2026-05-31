@@ -1,12 +1,22 @@
-# brainstorming visual companion
+# AI agent / tooling artifacts
+.claude/
+CLAUDE.md
 .superpowers/
-
-# temporary git worktrees
 .verify-chessmodel/
+
+# Python (chess-model) — training artifacts & caches (not shipped)
+chess-model/checkpoints/
+chess-model/data/
+chess-model/tools/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / Vite build caches
+frontend/tsconfig.tsbuildinfo
+node_modules/
+dist/
 
 # OS / editor
 .DS_Store
 Thumbs.db
-
-# build caches
-frontend/tsconfig.tsbuildinfo

@@ -16,8 +16,8 @@ export function MenuPage() {
     <PageShell>
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 1fr) minmax(280px, 1fr)', gap: 32, padding: 48, alignItems: 'center', minHeight: '100vh', maxWidth: 1100, margin: '0 auto' }}>
         <div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 52, margin: 0, lineHeight: 1 }}>ChessAI</h1>
-          <p style={{ color: 'var(--text-dim)', fontSize: 18 }}>Juega contra un modelo entrenado desde cero.</p>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 44, margin: 0, lineHeight: 1.05 }}>Juega contra mi modelo entrenado desde 0</h1>
+          <p style={{ color: 'var(--text-dim)', fontSize: 18 }}>Red neuronal entrenada desde cero · ~2000 ELO</p>
           <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', width: 'min(60vmin, 360px)', aspectRatio: '1', borderRadius: 'var(--radius)', overflow: 'hidden', boxShadow: 'var(--shadow)' }}>
             {Array.from({ length: 64 }).map((_, i) => {
               const dark = (Math.floor(i / 8) + i) % 2 === 0
